@@ -1,0 +1,11 @@
+<h1 class="text-xl mb-2">Apps</h1>
+
+<% if @apps.any? %>
+  <ul class="">
+    <% @apps.each do |app| %>
+      <li><%= app.name %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p class="">You haven't deployed any applications yet.</p>
+<% end %>
