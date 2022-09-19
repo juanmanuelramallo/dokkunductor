@@ -25,6 +25,10 @@ module Dokku
       end
     end
 
+    def logs
+      Command.new("2438801226e3dbc0e7b48716dba591071fa2f9a2c46d329cd10e67d3be3ffc30").run("logs #{name}")
+    end
+
     def save
       result = self.class.create(name: name)
       errors.merge!(result.errors)

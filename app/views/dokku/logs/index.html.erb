@@ -1,0 +1,10 @@
+<h1 class="text-xl mb-2"><%= link_to @app.name , dokku_app_path(@app.name) %> | <%= link_to "Logs", dokku_app_logs_path(@app.name) %></h1>
+
+<main class="py-4">
+  <code>
+    <% @app.logs.split("\r").each do |log| %>
+      <%= log %>
+      <br>
+    <% end %>
+  </code>
+</main>
