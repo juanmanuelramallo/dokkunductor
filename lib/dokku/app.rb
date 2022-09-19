@@ -30,5 +30,13 @@ module Dokku
       errors.merge!(result.errors)
       !errors.any?
     end
+
+    def report
+      @report ||= Command.new("2438801226e3dbc0e7b48716dba591071fa2f9a2c46d329cd10e67d3be3ffc30").run("apps:report #{name}")
+    end
+
+    def name=(value)
+      @name = value.strip
+    end
   end
 end

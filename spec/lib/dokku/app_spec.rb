@@ -3,6 +3,20 @@ require "rails_helper"
 RSpec.describe Dokku::App do
   let(:app) { described_class.new(name: "dokkunductor") }
 
+  before do
+    report = <<~STR
+      =====> applogger app information
+       App created at:                1663545578
+       App deploy source:
+       App deploy source metadata:
+       App dir:                       /home/dokku/dokkunductor
+       App locked:                    false
+    STR
+    command = instance_double(Dokku::Command)
+    allow(Dokku::Command).to receive(:new).and_return(command)
+    allow(command).to receive(:run).with("apps:report #{app.name}").and_return(report)
+  end
+
   describe ".all" do
     subject { described_class.all }
 
@@ -92,5 +106,11 @@ RSpec.describe Dokku::App do
         expect(app.errors).to have_key(:base)
       end
     end
+  end
+
+  describe "#report" do
+    subject { app.report }
+
+    it { is_expected.to be_a(String) }
   end
 end

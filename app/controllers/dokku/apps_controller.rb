@@ -17,6 +17,10 @@ module Dokku
       end
     end
 
+    def show
+      @app = Dokku::App.new(name: params[:id])
+    end
+
     private
 
     def app_params
