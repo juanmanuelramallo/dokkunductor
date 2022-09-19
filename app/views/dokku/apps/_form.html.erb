@@ -1,0 +1,11 @@
+<%= form_with model: app, method: :post do |f| %>
+  <% if app.errors.has_key?(:base) %>
+    <p class="mb-1">
+      <%= app.errors[:base].join(', ') %>
+    </p>
+  <% end %>
+
+  <%= f.text_field :name, placeholder: "App name" %>
+
+  <%= f.submit "Create", class: "cursor-pointer mt-1 block underline" %>
+<% end %>

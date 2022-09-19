@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe Dokku::App do
-  let(:app) { described_class.new("dokkunductor") }
+  let(:app) { described_class.new(name: "dokkunductor") }
 
   describe ".all" do
     subject { described_class.all }
@@ -40,7 +40,7 @@ RSpec.describe Dokku::App do
   end
 
   describe ".create" do
-    subject { described_class.create(name) }
+    subject { described_class.create(name: name) }
 
     let(:name) { "dokkunductor" }
     let(:command_mock) { instance_double(Dokku::Command) }
@@ -51,13 +51,13 @@ RSpec.describe Dokku::App do
 
     it "creates a new app" do
       expect(command_mock).to receive(:run).with("apps:create dokkunductor").and_return("-----> Creating dokkunductor...")
-      subject
+      expect(subject).to have_attributes(name: "dokkunductor")
     end
 
     context "when the app is already created" do
       it "returns nil" do
         expect(command_mock).to receive(:run).with("apps:create dokkunductor").and_return(" !     Name is already taken")
-        expect(subject).to be_nil
+        expect(subject.errors).to have_key(:base)
       end
     end
   end
@@ -66,5 +66,31 @@ RSpec.describe Dokku::App do
     subject { app.name }
 
     it { is_expected.to eq("dokkunductor") }
+  end
+
+  describe "#save" do
+    subject { app.save }
+
+    let(:command_mock) { instance_double(Dokku::Command) }
+
+    before do
+      allow(Dokku::Command).to receive(:new).and_return(command_mock)
+      allow(command_mock).to receive(:run).with("apps:create dokkunductor").and_return("-----> Creating dokkunductor...")
+    end
+
+    it { is_expected.to eq(true) }
+
+    context "when the app is already created" do
+      before do
+        allow(command_mock).to receive(:run).with("apps:create dokkunductor").and_return(" !     Name is already taken")
+      end
+
+      it { is_expected.to eq(false) }
+
+      it "adds an error" do
+        subject
+        expect(app.errors).to have_key(:base)
+      end
+    end
   end
 end
