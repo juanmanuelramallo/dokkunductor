@@ -39,6 +39,29 @@ RSpec.describe Dokku::App do
     end
   end
 
+  describe ".create" do
+    subject { described_class.create(name) }
+
+    let(:name) { "dokkunductor" }
+    let(:command_mock) { instance_double(Dokku::Command) }
+
+    before do
+      allow(Dokku::Command).to receive(:new).and_return(command_mock)
+    end
+
+    it "creates a new app" do
+      expect(command_mock).to receive(:run).with("apps:create dokkunductor").and_return("-----> Creating dokkunductor...")
+      subject
+    end
+
+    context "when the app is already created" do
+      it "returns nil" do
+        expect(command_mock).to receive(:run).with("apps:create dokkunductor").and_return(" !     Name is already taken")
+        expect(subject).to be_nil
+      end
+    end
+  end
+
   describe "#name" do
     subject { app.name }
 
