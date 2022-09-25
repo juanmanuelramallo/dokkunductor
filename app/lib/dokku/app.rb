@@ -6,7 +6,7 @@ module Dokku
 
     class << self
       def all
-        result = Command.new("2438801226e3dbc0e7b48716dba591071fa2f9a2c46d329cd10e67d3be3ffc30").run("apps:list")
+        result = Command.new.run("apps:list")
         return [] if result.match?("You haven't deployed any applications yet")
 
         result.split("\n").drop(1).sort.map do |app_name|
@@ -15,7 +15,7 @@ module Dokku
       end
 
       def create(args)
-        result = Command.new("2438801226e3dbc0e7b48716dba591071fa2f9a2c46d329cd10e67d3be3ffc30").run("apps:create #{args[:name]}")
+        result = Command.new.run("apps:create #{args[:name]}")
 
         app = new(args)
         if !result.match?("Creating")
@@ -26,7 +26,7 @@ module Dokku
     end
 
     def logs
-      Command.new("2438801226e3dbc0e7b48716dba591071fa2f9a2c46d329cd10e67d3be3ffc30").run("logs #{name}")
+      Command.new.run("logs #{name}")
     end
 
     def save
@@ -36,7 +36,7 @@ module Dokku
     end
 
     def report
-      @report ||= Command.new("2438801226e3dbc0e7b48716dba591071fa2f9a2c46d329cd10e67d3be3ffc30").run("apps:report #{name}")
+      @report ||= Command.new.run("apps:report #{name}")
     end
 
     def name=(value)

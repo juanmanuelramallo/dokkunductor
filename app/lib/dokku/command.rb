@@ -1,11 +1,14 @@
 module Dokku
   class Command
-    def initialize(container_id)
-      @container_id = container_id
+    # @param host [String] The host to run the command on (i.e. dokku.me). Defaults to ENV['DOKKU_HOST']
+    def initialize(host = nil)
+      @host = host || ENV.fetch("DOKKU_HOST")
     end
 
     def run(command)
-      `docker exec -t #{@container_id} dokku #{command}`
+      ActiveSupport::Notifications.instrument("dokku.command", command: command) do
+        `ssh dokku@#{@host} #{command}`
+      end
     end
   end
 end
