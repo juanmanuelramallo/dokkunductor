@@ -83,7 +83,7 @@ RSpec.describe SshKey, :persist do
     subject { described_class.new.destroy }
 
     it "removes the SSH key" do
-      expect { subject }.to change { File.exist?("./persistent/dokkunductor_id_ed25519") }.from(true).to(false)
+      expect { subject }.to change { File.exist?("./persistent/dokkunductor_id_ed25519.pub") }.from(true).to(false)
     end
   end
 end

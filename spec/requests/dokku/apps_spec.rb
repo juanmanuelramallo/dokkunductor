@@ -1,16 +1,20 @@
 require "rails_helper"
 
 RSpec.describe Dokku::AppsController do
+  let(:ssh_key_mock) { instance_double(SshKey) }
+
+  before do
+    allow(SshKey).to receive(:new).and_return(ssh_key_mock)
+    allow(ssh_key_mock).to receive(:accessible?).and_return(true)
+
+    allow(Dokku::App).to receive(:all).and_return([
+      Dokku::App.new(name: "testbox"),
+      Dokku::App.new(name: "applogger")
+    ])
+  end
+
   describe "GET /dokku/apps" do
     subject { get dokku_apps_path }
-
-
-    before do
-      allow(Dokku::App).to receive(:all).and_return([
-        Dokku::App.new(name: "testbox"),
-        Dokku::App.new(name: "applogger")
-      ])
-    end
 
     it "renders a collection of apps" do
       subject

@@ -54,6 +54,6 @@ class SshKey
   end
 
   def ssh
-    `ssh -o PasswordAuthentication=no -i #{private_path} dokku@#{ENV.fetch("DOKKU_HOST")}`
+    `ssh -o StrictHostKeyChecking=no -o PasswordAuthentication=no -i #{private_path} dokku@#{ENV.fetch("DOKKU_HOST")}`
   end
 end
