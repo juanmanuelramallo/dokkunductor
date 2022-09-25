@@ -12,7 +12,6 @@ require "action_mailbox/engine"
 require "action_text/engine"
 require "action_view/railtie"
 require "action_cable/engine"
-require_relative "../lib/dokku.rb"
 # require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
@@ -31,8 +30,5 @@ module Dokkunductor
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
-
-    config.autoload_paths += Dir["#{config.root}/lib/dokku"]
-    config.autoload_paths += Dir["#{config.root}/lib/dokku.rb"]
   end
 end
