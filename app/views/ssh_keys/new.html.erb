@@ -1,0 +1,15 @@
+<h1 class="text-xl mb-2">Set up SSH Key to interact with Dokku host machine</h1>
+
+<main class="py-4">
+  <%= form_with model: @ssh_key, url: ssh_key_path do |f| %>
+    <%= f.submit "Create SSH Key", class: "cursor-pointer underline" %>
+  <% end %>
+
+  <% if @ssh_key.result.present? %>
+    <div class="py-4">
+      <code>
+        <%= @ssh_key.result %>
+      </code>
+    </div>
+  <% end %>
+</main>

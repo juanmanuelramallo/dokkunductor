@@ -7,8 +7,14 @@ module Dokku
 
     def run(command)
       ActiveSupport::Notifications.instrument("dokku.command", command: command) do
-        `ssh dokku@#{@host} #{command}`
+        `ssh -i #{ssh_key.private_path} dokku@#{@host} #{command}`
       end
+    end
+
+    private
+
+    def ssh_key
+      SshKey.new
     end
   end
 end

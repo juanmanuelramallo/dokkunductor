@@ -1,0 +1,23 @@
+<h1 class="text-xl mb-2">Set up SSH Key to interact with Dokku host machine</h1>
+
+<main class="py-4">
+  <p>
+    SSH key created successfully. Please run the following command in your dokku's host machine:
+  </p>
+
+  <div class="py-4">
+    <code>
+      <%= simple_format @ssh_key.command %>
+    </code>
+  </div>
+
+  <p class="text-gray-400">
+    <%= link_to "Delete current key", ssh_key_path,
+      data: {
+        turbo_confirm: "Are you sure?",
+        turbo_method: :delete
+      },
+      class: "cursor-pointer underline" %>
+    to generate a new one.
+  </p>
+</main>

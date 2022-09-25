@@ -1,5 +1,7 @@
 module Dokku
   class AppsController < ApplicationController
+    include CheckAccess
+
     def index
       @apps = Dokku::App.all
       @app = Dokku::App.new
