@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - '**'
+  push:
+    branches:
+      - 'master'
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    env:
+      DOKKU_HOST: dokku.me
+      PERSISTENT_PATH: persistent
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        bundler-cache: true
+    - name: Tests
+      run: bundle exec rspec --format progress --order random
