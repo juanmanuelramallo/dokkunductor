@@ -6,7 +6,7 @@ module Dokku
 
     class << self
       def all
-        result = Command.new.run("apps:list")
+        result = Ssh.new.exec("apps:list")
         return [] if result.match?("You haven't deployed any applications yet")
 
         result.split("\n").drop(1).sort.map do |app_name|
@@ -15,7 +15,7 @@ module Dokku
       end
 
       def create(args)
-        result = Command.new.run("apps:create #{args[:name]}")
+        result = Ssh.new.exec("apps:create #{args[:name]}")
 
         app = new(args)
         if !result.match?("Creating")
@@ -26,7 +26,7 @@ module Dokku
     end
 
     def logs
-      Command.new.run("logs #{name}")
+      Ssh.new.exec("logs #{name}")
     end
 
     def save
@@ -36,7 +36,7 @@ module Dokku
     end
 
     def report
-      @report ||= Command.new.run("apps:report #{name}")
+      @report ||= Ssh.new.exec("apps:report #{name}")
     end
 
     def name=(value)

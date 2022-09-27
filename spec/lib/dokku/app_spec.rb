@@ -12,15 +12,15 @@ RSpec.describe Dokku::App do
        App dir:                       /home/dokku/dokkunductor
        App locked:                    false
     STR
-    command = instance_double(Dokku::Command)
-    allow(Dokku::Command).to receive(:new).and_return(command)
-    allow(command).to receive(:run).with("apps:report #{app.name}").and_return(report)
+    command = instance_double(Ssh)
+    allow(Ssh).to receive(:new).and_return(command)
+    allow(command).to receive(:exec).with("apps:report #{app.name}").and_return(report)
   end
 
   describe ".all" do
     subject { described_class.all }
 
-    let(:command_mock) { instance_double(Dokku::Command) }
+    let(:command_mock) { instance_double(Ssh) }
     let(:result) do
       <<~STR
         =====> My Apps
@@ -30,8 +30,8 @@ RSpec.describe Dokku::App do
     end
 
     before do
-      allow(Dokku::Command).to receive(:new).and_return(command_mock)
-      allow(command_mock).to receive(:run).and_return(result)
+      allow(Ssh).to receive(:new).and_return(command_mock)
+      allow(command_mock).to receive(:exec).and_return(result)
     end
 
     it "returns all apps" do
@@ -57,20 +57,20 @@ RSpec.describe Dokku::App do
     subject { described_class.create(name: name) }
 
     let(:name) { "dokkunductor" }
-    let(:command_mock) { instance_double(Dokku::Command) }
+    let(:command_mock) { instance_double(Ssh) }
 
     before do
-      allow(Dokku::Command).to receive(:new).and_return(command_mock)
+      allow(Ssh).to receive(:new).and_return(command_mock)
     end
 
     it "creates a new app" do
-      expect(command_mock).to receive(:run).with("apps:create dokkunductor").and_return("-----> Creating dokkunductor...")
+      expect(command_mock).to receive(:exec).with("apps:create dokkunductor").and_return("-----> Creating dokkunductor...")
       expect(subject).to have_attributes(name: "dokkunductor")
     end
 
     context "when the app is already created" do
       it "returns nil" do
-        expect(command_mock).to receive(:run).with("apps:create dokkunductor").and_return(" !     Name is already taken")
+        expect(command_mock).to receive(:exec).with("apps:create dokkunductor").and_return(" !     Name is already taken")
         expect(subject.errors).to have_key(:base)
       end
     end
@@ -85,18 +85,18 @@ RSpec.describe Dokku::App do
   describe "#save" do
     subject { app.save }
 
-    let(:command_mock) { instance_double(Dokku::Command) }
+    let(:command_mock) { instance_double(Ssh) }
 
     before do
-      allow(Dokku::Command).to receive(:new).and_return(command_mock)
-      allow(command_mock).to receive(:run).with("apps:create dokkunductor").and_return("-----> Creating dokkunductor...")
+      allow(Ssh).to receive(:new).and_return(command_mock)
+      allow(command_mock).to receive(:exec).with("apps:create dokkunductor").and_return("-----> Creating dokkunductor...")
     end
 
     it { is_expected.to eq(true) }
 
     context "when the app is already created" do
       before do
-        allow(command_mock).to receive(:run).with("apps:create dokkunductor").and_return(" !     Name is already taken")
+        allow(command_mock).to receive(:exec).with("apps:create dokkunductor").and_return(" !     Name is already taken")
       end
 
       it { is_expected.to eq(false) }

@@ -2,7 +2,7 @@ class SshKey
   include ActiveModel::Model
 
   KEY_TYPE = "ed25519".freeze
-  FILE_NAME = "dokkunductor_id_#{KEY_TYPE}".freeze
+  FILE_NAME = "dokkunductor_id_#{KEY_TYPE}_#{ENV.fetch("DOKKU_HOST")}".freeze
 
   attr_reader :result
 
@@ -34,7 +34,7 @@ class SshKey
   end
 
   def accessible?
-    ssh
+    Ssh.new.exec("apps:report")
 
     $?.success?
   end
@@ -51,9 +51,5 @@ class SshKey
 
   def persistent_path
     Rails.root.join(ENV.fetch("PERSISTENT_PATH"))
-  end
-
-  def ssh
-    `ssh -o StrictHostKeyChecking=no -o PasswordAuthentication=no -i #{private_path} dokku@#{ENV.fetch("DOKKU_HOST")}`
   end
 end
