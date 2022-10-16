@@ -47,8 +47,9 @@ jobs:
 
     - name: Build App
       run: |
+        mkdir persistent
         bin/rails db:setup
-      bin/rails assets:precompile
+        bin/rails assets:precompile
 
     - name: Tests
       run: bundle exec rspec --format progress --order random
