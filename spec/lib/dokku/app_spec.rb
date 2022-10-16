@@ -113,4 +113,10 @@ RSpec.describe Dokku::App do
 
     it { is_expected.to be_a(String) }
   end
+
+  describe "#git_remote_name" do
+    subject { app.git_remote_name }
+
+    it { is_expected.to eq("dokku@dokku.me:dokkunductor") }
+  end
 end

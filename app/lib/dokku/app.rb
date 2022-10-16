@@ -25,6 +25,10 @@ module Dokku
       end
     end
 
+    def git_remote_name
+      "dokku@#{ENV.fetch("DOKKU_HOST")}:#{name}"
+    end
+
     def logs
       Ssh.new.exec("logs #{name}")
     end
