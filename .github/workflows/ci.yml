@@ -12,15 +12,41 @@ jobs:
   ci:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
     env:
       DOKKU_HOST: dokku.me
       PERSISTENT_PATH: persistent
+      PGHOST: localhost
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      RAILS_ENV: test
 
     steps:
     - uses: actions/checkout@v2
+
     - name: Setup Ruby
       uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
+
+    - name: Install PostgreSQL client
+      run: sudo apt-get -yqq install libpq-dev
+
+    - name: Build App
+      run: bin/rails db:setup
+
     - name: Tests
       run: bundle exec rspec --format progress --order random
