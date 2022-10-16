@@ -46,7 +46,9 @@ jobs:
       run: sudo apt-get -yqq install libpq-dev
 
     - name: Build App
-      run: bin/rails db:setup
+      run: |
+        bin/rails db:setup
+      bin/rails assets:precompile
 
     - name: Tests
       run: bundle exec rspec --format progress --order random
