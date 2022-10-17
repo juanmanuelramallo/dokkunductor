@@ -2,7 +2,7 @@
 
 <main class="">
   <div class="mb-2">
-    <%= link_to "Logs", dokku_app_logs_path(@app.name), class: "underline" %>
+    <%= link_to "Logs", dokku_app_app_logs_path(@app.name), class: "underline" %>
   </div>
 
   <div class="mb-2" data-controller="clipboard" data-clipboard-success-content="Copied!">
