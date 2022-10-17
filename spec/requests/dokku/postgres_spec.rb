@@ -17,7 +17,7 @@ RSpec.describe Dokku::PostgresController do
   end
 
   describe "GET /dokku/postgres" do
-    subject { get dokku_postgres_path }
+    subject { get dokku_postgres_path, headers: basic_authorization_header }
 
     it "renders a collection of postgres services" do
       subject
@@ -28,7 +28,7 @@ RSpec.describe Dokku::PostgresController do
   end
 
   describe "GET /dokku/postgres/:service" do
-    subject { get dokku_postgre_path(service) }
+    subject { get dokku_postgre_path(service), headers: basic_authorization_header }
 
     let(:service) { "testbox" }
 
