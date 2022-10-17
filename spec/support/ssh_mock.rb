@@ -1,6 +1,6 @@
 module SshMock
   class Base
-    def initialize(result)
+    def initialize(result = nil)
       @result = result
     end
   end
