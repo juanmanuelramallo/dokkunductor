@@ -14,7 +14,7 @@ RSpec.describe Dokku::AppsController do
   end
 
   describe "GET /dokku/apps" do
-    subject { get dokku_apps_path }
+    subject { get dokku_apps_path, headers: basic_authorization_header }
 
     it "renders a collection of apps" do
       subject
@@ -37,7 +37,7 @@ RSpec.describe Dokku::AppsController do
   end
 
   describe "POST /dokku/apps" do
-    subject { post dokku_apps_path, params: params }
+    subject { post dokku_apps_path, params: params, headers: basic_authorization_header }
 
     let(:params) do
       {

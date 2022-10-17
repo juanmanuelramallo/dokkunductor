@@ -13,7 +13,7 @@ RSpec.describe SshKeysController, :persist do
   end
 
   describe "GET /ssh_key" do
-    subject { get ssh_key_path }
+    subject { get ssh_key_path, headers: basic_authorization_header }
 
     it "redirects to the new SSH key page" do
       subject
@@ -50,7 +50,7 @@ RSpec.describe SshKeysController, :persist do
   end
 
   describe "GET /ssh_key/new" do
-    subject { get new_ssh_key_path }
+    subject { get new_ssh_key_path, headers: basic_authorization_header }
 
     it "shows the new SSH key page" do
       subject
@@ -72,7 +72,7 @@ RSpec.describe SshKeysController, :persist do
   end
 
   describe "POST /ssh_key" do
-    subject { post ssh_key_path }
+    subject { post ssh_key_path, headers: basic_authorization_header }
 
     it "redirects to the SSH key page" do
       subject
@@ -82,7 +82,7 @@ RSpec.describe SshKeysController, :persist do
   end
 
   describe "DELETE /ssh_key" do
-    subject { delete ssh_key_path }
+    subject { delete ssh_key_path, headers: basic_authorization_header }
 
     it "redirects to the new SSH key page" do
       subject
