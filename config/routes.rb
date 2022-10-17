@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     resources :apps do
       resources :logs, only: :index
     end
+    resources :postgres, param: :service
   end
 
   root "dokku/apps#index"
