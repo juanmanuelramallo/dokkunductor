@@ -31,3 +31,7 @@ Install [postgres](https://github.com/dokku/dokku-postgres).
 ```bash
 sudo dokku plugin:install https://github.com/dokku/dokku-postgres.git postgres
 ```
+
+## 4. HTTP Basic authentication
+
+Set the `HTTP_BASIC_AUTH_NAME` and `HTTP_BASIC_AUTH_PASSWORD` in your `.env` file to whatever you want.
