@@ -1,0 +1,15 @@
+<h1 class="text-xl mb-2">Postgres</h1>
+
+<main class="py-4">
+  <% if @postgres_services.any? %>
+    <ul class="">
+      <% @postgres_services.each do |postgres_service| %>
+        <li>
+          <%= link_to postgres_service.service, dokku_postgre_path(postgres_service.service) %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="">There are no postgres services.</p>
+  <% end %>
+</main>
