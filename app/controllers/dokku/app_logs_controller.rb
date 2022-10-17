@@ -1,5 +1,5 @@
 module Dokku
-  class LogsController < ApplicationController
+  class AppLogsController < ApplicationController
     include CheckAccess
 
     def index
