@@ -2,11 +2,14 @@ module Dokku
   class AppsController < ApplicationController
     include CheckAccess
 
+    # @route GET /dokku/apps (dokku_apps)
+    # @route GET / (root)
     def index
       @apps = Dokku::App.all
       @app = Dokku::App.new
     end
 
+    # @route POST /dokku/apps (dokku_apps)
     def create
       @app = Dokku::App.new(app_params)
 
@@ -19,6 +22,7 @@ module Dokku
       end
     end
 
+    # @route GET /dokku/apps/:id (dokku_app)
     def show
       @app = Dokku::App.new(name: params[:id])
     end
