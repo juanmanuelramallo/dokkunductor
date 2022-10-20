@@ -13,3 +13,8 @@
     <p class="">There are no postgres services.</p>
   <% end %>
 </main>
+
+<div class="p-2 bg-gray-50">
+  <p class="text-gray-400 text-xs mb-1">New postgres service</p>
+  <%= render "form", postgres: @postgres %>
+</div>

@@ -1,0 +1,11 @@
+<%= form_with model: postgres, url: dokku_postgres_path, method: :post do |f| %>
+  <% if postgres.errors.has_key?(:base) %>
+    <p class="mb-1">
+      <%= postgres.errors[:base].join(', ') %>
+    </p>
+  <% end %>
+
+  <%= f.text_field :service, placeholder: "Postgres service name" %>
+
+  <%= f.submit "Create", class: "cursor-pointer mt-1 block underline" %>
+<% end %>
