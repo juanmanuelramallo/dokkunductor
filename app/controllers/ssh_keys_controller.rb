@@ -1,4 +1,5 @@
 class SshKeysController < ApplicationController
+  # @route GET /ssh_key/new (new_ssh_key)
   def new
     @ssh_key = SshKey.new
 
@@ -7,6 +8,7 @@ class SshKeysController < ApplicationController
     end
   end
 
+  # @route POST /ssh_key (ssh_key)
   def create
     @ssh_key = SshKey.new
 
@@ -17,6 +19,7 @@ class SshKeysController < ApplicationController
     end
   end
 
+  # @route GET /ssh_key (ssh_key)
   def show
     @ssh_key = SshKey.new
 
@@ -27,6 +30,7 @@ class SshKeysController < ApplicationController
     end
   end
 
+  # @route DELETE /ssh_key (ssh_key)
   def destroy
     @ssh_key = SshKey.new
 

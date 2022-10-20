@@ -2,14 +2,17 @@ module Dokku
   class PostgresController < ApplicationController
     include CheckAccess
 
+    # @route GET /dokku/postgres (dokku_postgres)
     def index
       @postgres_services = Postgres.all
     end
 
+    # @route GET /dokku/postgres/new (new_dokku_postgre)
     def new
       @postgres = Postgres.new
     end
 
+    # @route POST /dokku/postgres (dokku_postgres)
     def create
       @postgres = Postgres.new(postgres_params)
       if @postgres.save
@@ -19,6 +22,7 @@ module Dokku
       end
     end
 
+    # @route GET /dokku/postgres/:service (dokku_postgre)
     def show
       @postgres = Postgres.new(service: params[:service])
     end
