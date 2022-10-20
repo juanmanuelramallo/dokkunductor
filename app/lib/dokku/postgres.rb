@@ -13,6 +13,16 @@ module Dokku
           new(service: service)
         end
       end
+
+      def create(args)
+        result = Ssh.new.exec("postgres:create #{args[:service]} #{args[:flags]}")
+
+        postgres = new(args)
+        if !result.match?("Postgres container created")
+          postgres.errors.add(:base, :invalid, message: result)
+        end
+        postgres
+      end
     end
 
     def service=(value)
@@ -21,6 +31,12 @@ module Dokku
 
     def info
       Ssh.new.exec("postgres:info #{service}")
+    end
+
+    def save
+      result = self.class.create(service: service)
+      errors.merge!(result.errors)
+      !errors.any?
     end
   end
 end

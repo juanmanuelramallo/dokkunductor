@@ -5,10 +5,6 @@ module Dokku
     # @route GET /dokku/postgres (dokku_postgres)
     def index
       @postgres_services = Postgres.all
-    end
-
-    # @route GET /dokku/postgres/new (new_dokku_postgre)
-    def new
       @postgres = Postgres.new
     end
 
@@ -16,9 +12,10 @@ module Dokku
     def create
       @postgres = Postgres.new(postgres_params)
       if @postgres.save
-        redirect_to dokku_postgres_path(@postgres)
+        redirect_to dokku_postgre_path(service: @postgres.service)
       else
-        render :new
+        @postgres_services = Postgres.all
+        render :index, status: :see_other
       end
     end
 
@@ -30,7 +27,7 @@ module Dokku
     private
 
     def postgres_params
-      params.require(:postgres).permit(:service, :flags)
+      params.require(:dokku_postgres).permit(:service, :flags)
     end
   end
 end
