@@ -5,7 +5,7 @@
     <ul class="">
       <% @apps.each do |app| %>
         <li>
-          <%= link_to app.name, dokku_app_path(app.name) %>
+          <%= link_to app.name, dokku_app_path(app.name), class: "link" %>
         </li>
       <% end %>
     </ul>

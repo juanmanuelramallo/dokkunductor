@@ -1,0 +1,6 @@
+<header class="space-x-0.5 mb-2">
+  <%= link_to "Dokkunductor", root_path, class: "link" %>
+  <% @menu.each do |item| %>
+    <%= link_to item.name, item.path, class: "link" %>
+  <% end %>
+</header>
