@@ -5,7 +5,7 @@
     <ul class="">
       <% @postgres_services.each do |postgres_service| %>
         <li>
-          <%= link_to postgres_service.service, dokku_postgre_path(postgres_service.service), class: "link" %>
+          <%= link_to postgres_service.service, dokku_postgre_path(postgres_service), class: "link" %>
         </li>
       <% end %>
     </ul>

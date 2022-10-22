@@ -3,8 +3,8 @@ require "rails_helper"
 RSpec.describe Dokku::PostgresController do
   let(:ssh_key_mock) { instance_double(SshKey) }
 
-  let(:testbox) { instance_double(Dokku::Postgres) }
-  let(:applogger) { instance_double(Dokku::Postgres) }
+  let(:testbox) { Dokku::Postgres.new }
+  let(:applogger) { Dokku::Postgres.new }
 
   before do
     allow(SshKey).to receive(:new).and_return(ssh_key_mock)
@@ -12,6 +12,9 @@ RSpec.describe Dokku::PostgresController do
 
     allow(testbox).to receive(:service).and_return("testbox")
     allow(applogger).to receive(:service).and_return("applogger")
+
+    allow(testbox).to receive(:to_param).and_call_original
+    allow(applogger).to receive(:to_param).and_call_original
 
     allow(Dokku::Postgres).to receive(:all).and_return([
       testbox,
@@ -71,6 +74,22 @@ RSpec.describe Dokku::PostgresController do
       subject
       expect(response).to have_http_status(:found)
       expect(response).to redirect_to(dokku_postgre_path("another_production"))
+    end
+  end
+
+  describe "DELETE /dokku/postgres/:service" do
+    subject { delete dokku_postgre_path(testbox), headers: basic_authorization_header }
+
+    before do
+      allow(Dokku::Postgres).to receive(:new).and_return(testbox)
+    end
+
+    it "deletes a postgres service" do
+      expect(testbox).to receive(:destroy).and_return(true)
+
+      subject
+      expect(response).to have_http_status(:see_other)
+      expect(response).to redirect_to(dokku_postgres_path)
     end
   end
 end

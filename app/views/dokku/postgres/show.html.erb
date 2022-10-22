@@ -1,5 +1,9 @@
 <h1 class="text-xl mb-2"><%= @postgres.service %></h1>
 
 <main class="">
+  <div class="mb-2">
+    <%= link_to "Destroy", dokku_postgre_path(@postgres.service), class: "link", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+  </div>
+
   <%= simple_format @postgres.info %>
 </main>

@@ -24,6 +24,16 @@ module Dokku
       @postgres = Postgres.new(service: params[:service])
     end
 
+    def destroy
+      @postgres = Postgres.new(service: params[:service])
+
+      if @postgres.destroy
+        redirect_to dokku_postgres_path, status: :see_other
+      else
+        render :show, status: :see_other
+      end
+    end
+
     private
 
     def postgres_params
