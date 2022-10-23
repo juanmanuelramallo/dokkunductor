@@ -34,9 +34,9 @@ class SshKey
   end
 
   def accessible?
-    Ssh.new.exec("apps:report")
+    result = Ssh.new.exec("version")
 
-    $?.success?
+    result.match?("dokku version")
   end
 
   def pub_path

@@ -49,6 +49,18 @@ RSpec.describe Dokku::PostgresController do
       expect(response.body).to include("testbox")
       expect(response.body).to include("testbox info")
     end
+
+    context "when the service has errors" do
+      before do
+        testbox.errors.add(:base, "Some error")
+      end
+
+      it "renders the errors" do
+        subject
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include("Some error")
+      end
+    end
   end
 
   describe "POST /dokku/postgres/" do

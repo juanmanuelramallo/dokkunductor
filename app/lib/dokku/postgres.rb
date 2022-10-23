@@ -43,7 +43,7 @@ module Dokku
       result = Ssh.new.exec("postgres:destroy #{service} --force")
 
       if !result.match?("Postgres container deleted")
-        errors.add(:base, :invalid, message: result)
+        errors.add(:base, :invalid, message: result.strip)
       end
       !errors.any?
     end
