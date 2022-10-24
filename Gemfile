@@ -6,6 +6,7 @@ ruby "3.1.2"
 
 gem "bootsnap", require: false
 gem "importmap-rails"
+gem "inline_svg"
 gem "jbuilder"
 gem "pg", "~> 1.1"
 gem "puma", "~> 5.0"

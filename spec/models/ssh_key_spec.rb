@@ -57,7 +57,7 @@ RSpec.describe SshKey, :persist do
     let(:ssh_key) { described_class.new }
 
     before do
-      allow(Ssh).to receive(:new).and_return(SshMock::Error.new)
+      allow(Ssh).to receive(:new).and_return(SshMock::Error.new(""))
     end
 
     subject { ssh_key.accessible? }
@@ -66,7 +66,7 @@ RSpec.describe SshKey, :persist do
 
     context "when the SSH key is accessible" do
       before do
-        allow(Ssh).to receive(:new).and_return(SshMock::Success.new)
+        allow(Ssh).to receive(:new).and_return(SshMock::Success.new("dokku version 0.28"))
       end
 
       it { is_expected.to be true }

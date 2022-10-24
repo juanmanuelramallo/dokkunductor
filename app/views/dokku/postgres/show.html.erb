@@ -1,3 +1,6 @@
+<% @postgres.errors.to_hash(true).each do |attr, errors| %>
+  <%= render "application/notification", message: errors.join(". ") %>
+<% end %>
 <h1 class="text-xl mb-2"><%= @postgres.service %></h1>
 
 <main class="">

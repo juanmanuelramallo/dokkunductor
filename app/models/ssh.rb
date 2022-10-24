@@ -8,7 +8,9 @@ class Ssh
   # @param command [String] The command to run
   def exec(command)
     ActiveSupport::Notifications.instrument("ssh.exec", command: command) do
-      `ssh -o StrictHostKeyChecking=no -o PasswordAuthentication=no -i #{private_path} #{user}@#{host} #{command}`
+      Open3.popen2e("#{ssh_prefix} #{command}") do |_stdin, stdout_and_stderr, _wait_thr|
+        stdout_and_stderr.read
+      end
     end
   end
 
@@ -20,6 +22,10 @@ class Ssh
 
   def ssh_key
     SshKey.new
+  end
+
+  def ssh_prefix
+    "ssh -o StrictHostKeyChecking=no -o PasswordAuthentication=no -i #{private_path} #{user}@#{host}"
   end
 
   def user
