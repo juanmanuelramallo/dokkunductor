@@ -41,6 +41,7 @@ RSpec.describe Dokku::PostgresController do
     before do
       allow(Dokku::Postgres).to receive(:new).and_return(testbox)
       allow(testbox).to receive(:info).and_return("testbox info")
+      allow(testbox).to receive(:links).and_return(["testboxapp", "another_app"])
     end
 
     it "renders a single postgres service" do
@@ -48,6 +49,8 @@ RSpec.describe Dokku::PostgresController do
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("testbox")
       expect(response.body).to include("testbox info")
+      expect(response.body).to include("testboxapp")
+      expect(response.body).to include("another_app")
     end
 
     context "when the service has errors" do

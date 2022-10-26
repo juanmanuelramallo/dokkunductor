@@ -1,0 +1,11 @@
+<%= turbo_frame_tag "postgres-#{postgres.service}-links" do %>
+  <p>Links</p>
+
+  <% if postgres.links.blank? %>
+    <p class="text-gray-500">No links</p>
+  <% end %>
+
+  <% postgres.links.each do |link| %>
+    <%= link_to link, dokku_app_path(link), class: "link", target: :_top %>
+  <% end %>
+<% end %>
