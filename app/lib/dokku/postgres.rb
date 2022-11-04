@@ -33,6 +33,17 @@ module Dokku
       Ssh.new.exec("postgres:info #{service}")
     end
 
+    def links
+      result = Ssh.new.exec("postgres:links #{service}")
+      result.split("\n")
+    end
+
+    def link(app_name)
+      Ssh.new.exec("postgres:link #{service} #{app_name} &") # & to run in background
+
+      true
+    end
+
     def save
       result = self.class.create(service: service)
       errors.merge!(result.errors)

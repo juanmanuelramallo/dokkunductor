@@ -16,6 +16,10 @@ class Ssh
 
   private
 
+  def port
+    ENV.fetch("DOKKU_PORT", 22)
+  end
+
   def private_path
     ssh_key.private_path
   end
@@ -25,7 +29,7 @@ class Ssh
   end
 
   def ssh_prefix
-    "ssh -o StrictHostKeyChecking=no -o PasswordAuthentication=no -i #{private_path} #{user}@#{host}"
+    "ssh -o StrictHostKeyChecking=no -o PasswordAuthentication=no -i #{private_path} #{user}@#{host} -p #{port}"
   end
 
   def user
@@ -33,6 +37,6 @@ class Ssh
   end
 
   def host
-    Rails.env.production? ? "localhost" : "dokku.me"
+    Rails.env.production? ? "localhost" : ENV.fetch("DOKKU_HOST", "dokku.me")
   end
 end

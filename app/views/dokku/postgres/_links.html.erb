@@ -1,0 +1,17 @@
+<p>Linked apps</p>
+
+<%= turbo_frame_tag "new_postgre_link" do %>
+  <% if postgres.links.blank? %>
+    <p class="text-gray-500">No links</p>
+  <% end %>
+
+  <% postgres.links.each do |link| %>
+    <p>
+      <%= link_to link, dokku_app_path(link), class: "link", target: :_top %>
+    </p>
+  <% end %>
+
+  <p>
+    <%= link_to "Link an app", new_dokku_postgre_links_path(postgres), class: "link" %>
+  </p>
+<% end %>
