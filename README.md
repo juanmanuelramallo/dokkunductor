@@ -6,10 +6,17 @@ Web UI for dokku.
 
 ## 1. Network
 
-In the dokku host machine, use the host network mode for the container.
+
+In the dokku host machine, fetch the IP assigned by docker (next to `inet`)
 
 ```
-dokku docker-options:add dokkunductor run,deploy --net="host"
+sudo ip addr show docker0
+```
+
+Add it as the DOKKU_HOST
+
+```
+dokku config:set dokkunductor DOKKU_HOST=172.17.0.1
 ```
 
 ## 2. SSH Key

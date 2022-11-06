@@ -66,6 +66,6 @@ class Ssh
   end
 
   def host
-    Rails.env.production? ? "localhost" : ENV.fetch("DOKKU_HOST", "dokku.me")
+    ENV.fetch("DOKKU_HOST", "dokku.me")
   end
 end
