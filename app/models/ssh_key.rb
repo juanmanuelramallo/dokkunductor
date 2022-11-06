@@ -2,7 +2,7 @@ class SshKey
   include ActiveModel::Model
 
   KEY_TYPE = "ed25519".freeze
-  FILE_NAME = "dokkunductor_id_#{KEY_TYPE}_#{ENV.fetch("DOKKU_HOST")}".freeze
+  FILE_NAME = "dokkunductor_id_#{KEY_TYPE}".freeze
 
   attr_reader :result
 

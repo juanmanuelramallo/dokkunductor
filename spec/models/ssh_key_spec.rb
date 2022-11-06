@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe SshKey, :persist do
   describe "#command" do
     before do
-      File.open("./persistent/dokkunductor_id_ed25519_dokku.me.pub", "w") do |file|
+      File.open("./persistent/dokkunductor_id_ed25519.pub", "w") do |file|
         file.puts "mypublickey"
       end
     end
@@ -17,13 +17,13 @@ RSpec.describe SshKey, :persist do
     subject { described_class.new.save }
 
     it "generates a new SSH key" do
-      expect { subject }.to change { File.exist?("./persistent/dokkunductor_id_ed25519_dokku.me") }.from(false).to(true)
+      expect { subject }.to change { File.exist?("./persistent/dokkunductor_id_ed25519") }.from(false).to(true)
     end
   end
 
   describe "#public_key?" do
     before do
-      File.open("./persistent/dokkunductor_id_ed25519_dokku.me.pub", "w") do |file|
+      File.open("./persistent/dokkunductor_id_ed25519.pub", "w") do |file|
         file.puts "mypublickey"
       end
     end
@@ -34,7 +34,7 @@ RSpec.describe SshKey, :persist do
 
     context "when the public key does not exist" do
       before do
-        File.delete("./persistent/dokkunductor_id_ed25519_dokku.me.pub")
+        File.delete("./persistent/dokkunductor_id_ed25519.pub")
       end
 
       it { is_expected.to be false }
@@ -43,7 +43,7 @@ RSpec.describe SshKey, :persist do
 
   describe "#public_key" do
     before do
-      File.open("./persistent/dokkunductor_id_ed25519_dokku.me.pub", "w") do |file|
+      File.open("./persistent/dokkunductor_id_ed25519.pub", "w") do |file|
         file.puts "mypublickey"
       end
     end
@@ -75,7 +75,7 @@ RSpec.describe SshKey, :persist do
 
   describe "#destroy" do
     before do
-      File.open("./persistent/dokkunductor_id_ed25519_dokku.me.pub", "w") do |file|
+      File.open("./persistent/dokkunductor_id_ed25519.pub", "w") do |file|
         file.puts "mypublickey"
       end
     end
@@ -83,7 +83,7 @@ RSpec.describe SshKey, :persist do
     subject { described_class.new.destroy }
 
     it "removes the SSH key" do
-      expect { subject }.to change { File.exist?("./persistent/dokkunductor_id_ed25519_dokku.me.pub") }.from(true).to(false)
+      expect { subject }.to change { File.exist?("./persistent/dokkunductor_id_ed25519.pub") }.from(true).to(false)
     end
   end
 end

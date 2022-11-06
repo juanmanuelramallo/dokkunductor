@@ -23,7 +23,7 @@ RSpec.describe SshKeysController, :persist do
 
     context "when the ssh key already exists" do
       before do
-        File.open("./persistent/dokkunductor_id_ed25519_dokku.me.pub", "w") do |file|
+        File.open("./persistent/dokkunductor_id_ed25519.pub", "w") do |file|
           file.puts "mypublickey"
         end
       end
