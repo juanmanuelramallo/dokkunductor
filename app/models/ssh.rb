@@ -1,4 +1,16 @@
 class Ssh
+  include Turbo::Broadcastable
+
+  class BroadcastModel
+    def to_param
+      "terminal"
+    end
+  end
+
+  def model_name
+    ActiveModel::Name.new(self, nil, "Ssh")
+  end
+
   # Runs a command in the host machine
   #
   # Always uses localhost as the host. This works thanks to the host network mode for a docker container.
@@ -7,14 +19,31 @@ class Ssh
   #
   # @param command [String] The command to run
   def exec(command)
+    result = nil
+
     ActiveSupport::Notifications.instrument("ssh.exec", command: command) do
       Open3.popen2e("#{ssh_prefix} #{command}") do |_stdin, stdout_and_stderr, _wait_thr|
-        stdout_and_stderr.read
+        result = stdout_and_stderr.read
       end
     end
+
+    broadcast_result(command, result) unless command == "version"
+
+    result
   end
 
   private
+
+  def broadcast_result(command, result)
+    broadcast_append_to BroadcastModel.new,
+      target: "terminal",
+      partial: "terminal/command",
+      locals: {
+        command: command,
+        result: result,
+        user: user
+      }
+  end
 
   def port
     ENV.fetch("DOKKU_PORT", 22)
