@@ -1,7 +1,7 @@
 import { Application } from "@hotwired/stimulus"
 import Clipboard from "stimulus-clipboard"
 import Notification from "stimulus-notification";
-import ScrollIntoView from "./scroll_into_view_controller";
+import ScrollIntoView from "controllers/scroll_into_view_controller";
 
 const application = Application.start()
 
