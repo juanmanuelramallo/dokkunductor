@@ -11,12 +11,12 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="min-h-screen flex flex-col space-between">
-    <main class="container mx-auto mt-5 px-5 grow">
+  <body class="h-screen flex flex-col space-between">
+    <main class="pt-5 px-5 h-4/6 overflow-auto">
       <%= render "application/header" %>
       <%= yield %>
     </main>
-    <div>
+    <div class="h-2/6">
       <%= render "terminal/terminal" %>
     </div>
   </body>

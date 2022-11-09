@@ -1,0 +1,14 @@
+<%= turbo_frame_tag "config" do %>
+  <%= link_to "Environment variables", dokku_app_app_configs_path(@app.name), class: "link" %>
+
+  <div class="bg-gray-50 p-2">
+    <%= form_with url: "" do |form| %>
+      <% @config.each do |key, value| %>
+        <div class="flex flex-col mt-2">
+          <%= form.label key, key, class: "text-gray-400 text-xs" %>
+          <%= form.text_field key, value: value %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
