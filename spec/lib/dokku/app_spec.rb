@@ -2,6 +2,7 @@ require "rails_helper"
 
 RSpec.describe Dokku::App do
   let(:app) { described_class.new(name: "dokkunductor") }
+  let(:command_mock) { instance_double(Ssh) }
 
   before do
     report = <<~STR
@@ -20,7 +21,6 @@ RSpec.describe Dokku::App do
   describe ".all" do
     subject { described_class.all }
 
-    let(:command_mock) { instance_double(Ssh) }
     let(:result) do
       <<~STR
         =====> My Apps
@@ -57,7 +57,6 @@ RSpec.describe Dokku::App do
     subject { described_class.create(name: name) }
 
     let(:name) { "dokkunductor" }
-    let(:command_mock) { instance_double(Ssh) }
 
     before do
       allow(Ssh).to receive(:new).and_return(command_mock)
@@ -84,8 +83,6 @@ RSpec.describe Dokku::App do
 
   describe "#save" do
     subject { app.save }
-
-    let(:command_mock) { instance_double(Ssh) }
 
     before do
       allow(Ssh).to receive(:new).and_return(command_mock)
@@ -118,5 +115,35 @@ RSpec.describe Dokku::App do
     subject { app.git_remote_name }
 
     it { is_expected.to eq("dokku@dokku.me:dokkunductor") }
+  end
+
+  describe "#config" do
+    subject { app.config }
+
+    before do
+      allow(Ssh).to receive(:new).and_return(command_mock)
+      allow(command_mock).to receive(:exec).and_return(<<~STR)
+        =====> dokkunductor env vars
+        DATABASE_URL: postgres://postgres:postgres@postgres:5432/dokkunductor
+        RAILS_ENV: production
+      STR
+    end
+
+    it "returns a hash" do
+      expect(subject).to include(
+        "DATABASE_URL" => "postgres://postgres:postgres@postgres:5432/dokkunductor",
+        "RAILS_ENV" => "production"
+      )
+    end
+
+    context "when app does not exist" do
+      before do
+        allow(command_mock).to receive(:exec).and_return(" !     App dokkunductor does not exist")
+      end
+
+      it "returns an empty hash" do
+        expect(subject).to eq({})
+      end
+    end
   end
 end
