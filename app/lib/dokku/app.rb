@@ -25,6 +25,18 @@ module Dokku
       end
     end
 
+    def config
+      result = Ssh.new.exec("config:show #{name}")
+
+      if result.start_with?("=====>")
+        result.split("\n").drop(1).sort.map do |line|
+          line.match("(.*):\s+(.*)").captures
+        end.to_h
+      else
+        {}
+      end
+    end
+
     def git_remote_name
       "dokku@#{ENV.fetch("DOKKU_HOST")}:#{name}"
     end
