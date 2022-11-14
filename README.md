@@ -78,7 +78,11 @@ Note that application deployments will fail on Apple new chip arch but everythin
 ```
 ./bin/dev
 ```
-4. Visit localhost:3000 and follow the SSH keys configuration steps. Commands must be executed within the dokku container.
+
+To execute within dokku docker's container:
+
+4. Visit localhost:3000 and follow the SSH keys configuration steps.
+5. Install plugins by following [step 3 from the deployment section](https://github.com/juanmanuelramallo/dokkunductor#3-plugins).
 
 Access the dokku container via
 ```bash
