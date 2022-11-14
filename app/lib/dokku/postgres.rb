@@ -2,7 +2,7 @@ module Dokku
   class Postgres
     include ActiveModel::Model
 
-    attr_accessor :service
+    attr_reader :service
 
     class << self
       def all

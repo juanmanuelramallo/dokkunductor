@@ -8,7 +8,7 @@ RSpec.describe Dokku::AppConfigsController do
     allow(SshKey).to receive(:new).and_return(ssh_key_mock)
     allow(ssh_key_mock).to receive(:accessible?).and_return(true)
     allow(testbox).to receive(:name).and_return("testbox")
-    allow(testbox).to receive(:config).and_return({ "TEST" => "test", "RAILS_ENV" => "production" })
+    allow(testbox).to receive(:config).and_return({"TEST" => "test", "RAILS_ENV" => "production"})
     allow(Dokku::App).to receive(:new).and_return(testbox)
   end
 

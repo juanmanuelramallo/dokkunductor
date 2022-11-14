@@ -51,5 +51,8 @@ jobs:
         bin/rails db:setup
         bin/rails assets:precompile
 
+    - name: Standard
+      run: bundle exec standardrb
+
     - name: Tests
       run: bundle exec rspec --format progress --order random

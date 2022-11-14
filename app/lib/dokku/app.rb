@@ -2,7 +2,7 @@ module Dokku
   class App
     include ActiveModel::Model
 
-    attr_accessor :name
+    attr_reader :name
 
     class << self
       def all
