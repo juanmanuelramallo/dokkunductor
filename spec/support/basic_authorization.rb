@@ -3,8 +3,8 @@ module BasicAuthorization
     {
       HTTP_AUTHORIZATION:
         ActionController::HttpAuthentication::Basic.encode_credentials(
-          ENV.fetch('HTTP_BASIC_AUTH_NAME'),
-          ENV.fetch('HTTP_BASIC_AUTH_PASSWORD')
+          ENV.fetch("HTTP_BASIC_AUTH_NAME"),
+          ENV.fetch("HTTP_BASIC_AUTH_PASSWORD")
         )
     }
   end
