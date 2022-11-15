@@ -65,3 +65,26 @@ Finally set the REDIS_URL env var replacing the host with the internal IP:
 dokku config:set dokkunductor REDIS_URL=redis://:password@internal_ip:6379
 # i.e.: dokku config:set dokkunductor REDIS_URL=redis://:password@172.17.0.2:6379
 ```
+
+# Development
+
+Docker is required before continuing.
+
+Note that application deployments will fail on Apple new chip arch but everything else will work normally.
+
+1. [Deploy dokku locally via Docker](https://dokku.com/docs/getting-started/install/docker/)
+2. Copy the .env.sample file to .env
+3. Run dokkunductor
+```
+./bin/dev
+```
+
+To execute within dokku docker's container:
+
+4. Visit localhost:3000 and follow the SSH keys configuration steps.
+5. Install plugins by following [step 3 from the deployment section](https://github.com/juanmanuelramallo/dokkunductor#3-plugins).
+
+Access the dokku container via
+```bash
+docker exec -it dokku bash
+```
