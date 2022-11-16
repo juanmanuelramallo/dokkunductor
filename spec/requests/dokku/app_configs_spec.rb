@@ -33,7 +33,7 @@ RSpec.describe Dokku::AppConfigsController do
     let(:params) do
       {
         config: {
-          "1" => {"name" => "TEST", "value" => "test2", "delete" => "0"},
+          "1" => {"name" => "TEST", "value" => "test2", "delete" => "1"},
           "2" => {"name" => "RAILS_ENV", "value" => "development", "delete" => "0"},
           "0" => {"name" => "NEW_CONFIG", "value" => "new", "delete" => "0"}
         }
@@ -42,10 +42,11 @@ RSpec.describe Dokku::AppConfigsController do
 
     it "updates the config" do
       expect(testbox).to receive(:update_config).with(include(
-        "TEST" => "test2",
         "RAILS_ENV" => "development",
         "NEW_CONFIG" => "new"
       )).and_return(true)
+
+      expect(testbox).to receive(:unset_config).with(contain_exactly("TEST")).and_return(true)
 
       subject
 

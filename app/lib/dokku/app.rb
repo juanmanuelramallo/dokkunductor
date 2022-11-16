@@ -37,8 +37,14 @@ module Dokku
       end
     end
 
+    # @param args [Hash<String, String>] List of config vars to set
     def update_config(args)
       Ssh.new.exec("config:set #{name} #{args.map { |k, v| "#{k}=#{v}" }.join(" ")} --no-restart")
+    end
+
+    # @param args [Array<String>] List of config vars to unset
+    def unset_config(args)
+      Ssh.new.exec("config:unset #{name} #{args.join(" ")} --no-restart")
     end
 
     def git_remote_name
