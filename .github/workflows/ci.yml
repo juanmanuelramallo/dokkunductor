@@ -54,5 +54,9 @@ jobs:
     - name: Standard
       run: bundle exec standardrb
 
+    - name: Controller annotations
+      run: |
+        bundle exec chusaku --exit-with-error-on-annotation || { echo 'Run `bundle exec chusaku` and commit changes'; false; }
+
     - name: Tests
       run: bundle exec rspec --format progress --order random

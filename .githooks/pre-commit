@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+
+yellow = "\033[1;33m"
+nocolor = "\033[0m"
+
+puts "#{yellow}[StandardRB]#{nocolor} Running"
+files = `
+  git diff --cached --name-only --diff-filter=AMR |
+  egrep '\.rb$|\.rake$'
+`
+files = files.split("\n")
+if files.any?
+  successful = system("bundle exec standardrb #{files.join(" ")} --format progress --force-exclusion")
+  exit 1 unless successful
+end
+
+routes_changed = `git diff --cached --name-only | grep 'app/controllers\\|config/routes.rb'`.split("\n")
+if routes_changed.any?
+  puts "#{yellow}[Chusaku]#{nocolor} Running"
+  successful = system("bundle exec chusaku --exit-with-error-on-annotation")
+  exit 1 unless successful
+end
