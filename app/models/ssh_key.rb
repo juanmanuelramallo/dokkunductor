@@ -9,7 +9,7 @@ class SshKey
   def command
     <<~BASH
       dokku ssh-keys:remove dokkunductor # If the key already exists\n
-      echo \"#{public_key}\" | dokku ssh-keys:add dokkunductor\n
+      echo "#{public_key}" | dokku ssh-keys:add dokkunductor\n
     BASH
   end
 
@@ -26,11 +26,11 @@ class SshKey
   end
 
   def public_key?
-    File.exist?(persistent_path.join("#{pub_path}"))
+    File.exist?(persistent_path.join(pub_path.to_s))
   end
 
   def public_key
-    File.read(persistent_path.join("#{pub_path}")).strip
+    File.read(persistent_path.join(pub_path.to_s)).strip
   end
 
   def accessible?
