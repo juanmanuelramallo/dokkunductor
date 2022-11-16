@@ -1,10 +1,13 @@
 module Dokku
   class AppConfigsController < ApplicationController
+    # @route GET /dokku/apps/:app_id/app_configs (dokku_app_app_configs)
     def show
       @app = Dokku::App.new(name: params[:app_id])
       @config = @app.config
     end
 
+    # @route PATCH /dokku/apps/:app_id/app_configs (dokku_app_app_configs)
+    # @route PUT /dokku/apps/:app_id/app_configs (dokku_app_app_configs)
     def update
       @app = Dokku::App.new(name: params[:app_id])
       @config = @app.config
@@ -26,7 +29,7 @@ module Dokku
       @flattened_config ||= begin
         configs = config_params.to_h
         new_name, new_value = configs.delete(:new_name), configs.delete(:new_value)
-        configs.merge!(new_name => new_value) if new_name.present? && new_value.present?
+        configs[new_name] = new_value if new_name.present? && new_value.present?
         configs
       end
     end

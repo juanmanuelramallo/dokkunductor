@@ -24,6 +24,7 @@ module Dokku
       @postgres = Postgres.new(service: params[:service])
     end
 
+    # @route DELETE /dokku/postgres/:service (dokku_postgre)
     def destroy
       @postgres = Postgres.new(service: params[:service])
 
