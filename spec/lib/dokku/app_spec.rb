@@ -146,4 +146,31 @@ RSpec.describe Dokku::App do
       end
     end
   end
+
+  describe "#update_config" do
+    subject { app.update_config(config) }
+
+    let(:config) do
+      {
+        "DATABASE_URL" => "postgres://postgres:postgres@postgres:5432/dokkunductor",
+        "RAILS_ENV" => "production"
+      }
+    end
+
+    before do
+      allow(Ssh).to receive(:new).and_return(command_mock)
+      allow(command_mock).to receive(:exec).and_return(<<~STR)
+        =====> dokkunductor env vars
+        DATABASE_URL: postgres://postgres:postgres@postgres:5432/dokkunductor
+        RAILS_ENV: production
+      STR
+    end
+
+    it "updates the config" do
+      expect(command_mock).to receive(:exec)
+        .with(match("config:set dokkunductor DATABASE_URL=postgres://postgres:postgres@postgres:5432/dokkunductor RAILS_ENV=production"))
+
+      subject
+    end
+  end
 end

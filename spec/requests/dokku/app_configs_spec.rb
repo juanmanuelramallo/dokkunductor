@@ -18,8 +18,30 @@ RSpec.describe Dokku::AppConfigsController do
     it "renders the config form" do
       subject
 
-      assert_select "input[name='TEST'][value='test']"
-      assert_select "input[name='RAILS_ENV'][value='production']"
+      assert_select "input[name='config[TEST]'][value='test']"
+      assert_select "input[name='config[RAILS_ENV]'][value='production']"
+    end
+  end
+
+  describe "PUT /apps/:app_id/app_configs" do
+    subject { put dokku_app_app_configs_path(testbox.name), params: params, headers: basic_authorization_header }
+
+    let(:params) do
+      {
+        config: {
+          "TEST" => "test2",
+          "RAILS_ENV" => "development",
+          "NEW_CONFIG" => "new"
+        }
+      }
+    end
+
+    it "updates the config" do
+      expect(testbox).to receive(:update_config).with(include(params[:config].to_h)).and_return(true)
+
+      subject
+
+      expect(response).to redirect_to dokku_app_app_configs_path(testbox.name)
     end
   end
 end

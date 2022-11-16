@@ -4,7 +4,7 @@
 
 @layer components {
   .link {
-    @apply underline text-blue-600 hover:text-blue-500
+    @apply underline text-blue-600 hover:text-blue-500 cursor-pointer
   }
 
   .title {

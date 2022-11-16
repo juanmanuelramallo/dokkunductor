@@ -88,3 +88,9 @@ Access the dokku container via
 ```bash
 docker exec -it dokku bash
 ```
+
+### Git hooks
+
+From the .githooks directory:
+
+git config --local core.hooksPath .githooks/

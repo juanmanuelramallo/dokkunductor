@@ -37,6 +37,10 @@ module Dokku
       end
     end
 
+    def update_config(args)
+      Ssh.new.exec("config:set #{name} #{args.map { |k, v| "#{k}=#{v}" }.join(" ")} --no-restart")
+    end
+
     def git_remote_name
       "dokku@#{ENV.fetch("DOKKU_HOST")}:#{name}"
     end

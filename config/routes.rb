@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   namespace :dokku do
     resources :apps do
       resources :app_logs, only: :index
-      resource :app_configs, only: :show
+      resource :app_configs, only: [:show, :update]
     end
     resources :postgres, param: :service do
       resource :postgres_links, only: [:new, :create, :destroy], as: :links
