@@ -4,17 +4,25 @@
     <%= link_to "Hide", dokku_app_path(id: @app.name), class: "link text-gray-400", data: { turbo_frame: :_top } %>
 
     <div class="bg-gray-50 p-2">
-      <% @config.each do |key, value| %>
+      <% @config.each.with_index(1) do |(key, value), i| %>
         <div class="flex flex-col mt-2">
-          <%= form.label key, key, class: "text-gray-400 text-xs" %>
-          <%= form.text_field key, value: value %>
+          <%= form.hidden_field "[#{i}][name]", value: key %>
+          <%= form.label "entry[#{i}][value]", key, class: "text-gray-400 text-xs" %>
+          <%= form.text_field "[#{i}][value]", value: value %>
+          <%= form.label "[#{i}][delete]", class: "text-gray-400 text-xs flex flex-row" do %>
+            <%= form.check_box "[#{i}][delete]", class: "mt-1" %>
+            <span class="mt-1">
+              <span class="h-100 my-auto ml-1">Delete?</span>
+            </span>
+          <% end %>
         </div>
       <% end %>
 
       <div class="flex flex-col mt-2">
-        <%= form.label :new_name, "Add a new config", class: "text-gray-400 text-xs" %>
-        <%= form.text_field :new_name, placeholder: "Name" %>
-        <%= form.text_field :new_value, placeholder: "Value" %>
+        <%= form.label "[0][name]", "Add a new config", class: "text-gray-400 text-xs" %>
+        <%= form.text_field "[0][name]", placeholder: "Name", class: "mb-1" %>
+        <%= form.text_field "[0][value]", placeholder: "Value" %>
+        <%= form.hidden_field "[0][delete]", value: 0 %>
       </div>
     </div>
   <% end %>

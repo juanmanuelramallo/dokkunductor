@@ -18,8 +18,12 @@ RSpec.describe Dokku::AppConfigsController do
     it "renders the config form" do
       subject
 
-      assert_select "input[name='config[TEST]'][value='test']"
-      assert_select "input[name='config[RAILS_ENV]'][value='production']"
+      assert_select "input[name='config[[1][name]]'][value='TEST']"
+      assert_select "input[name='config[[1][value]]'][value='test']"
+      assert_select "input[name='config[[1][delete]]'][value='0']"
+      assert_select "input[name='config[[2][name]]'][value='RAILS_ENV']"
+      assert_select "input[name='config[[2][value]]'][value='production']"
+      assert_select "input[name='config[[2][delete]]'][value='0']"
     end
   end
 
@@ -29,15 +33,20 @@ RSpec.describe Dokku::AppConfigsController do
     let(:params) do
       {
         config: {
-          "TEST" => "test2",
-          "RAILS_ENV" => "development",
-          "NEW_CONFIG" => "new"
+          "1" => {"name" => "TEST", "value" => "test2", "delete" => "1"},
+          "2" => {"name" => "RAILS_ENV", "value" => "development", "delete" => "0"},
+          "0" => {"name" => "NEW_CONFIG", "value" => "new", "delete" => "0"}
         }
       }
     end
 
     it "updates the config" do
-      expect(testbox).to receive(:update_config).with(include(params[:config].to_h)).and_return(true)
+      expect(testbox).to receive(:update_config).with(include(
+        "RAILS_ENV" => "development",
+        "NEW_CONFIG" => "new"
+      )).and_return(true)
+
+      expect(testbox).to receive(:unset_config).with(contain_exactly("TEST")).and_return(true)
 
       subject
 
