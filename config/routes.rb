@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     resources :postgres, param: :service do
       resource :postgres_links, only: [:new, :create, :destroy], as: :links
     end
+    resources :ssh_keys, only: [:index]
   end
 
   root "dokku/apps#index"

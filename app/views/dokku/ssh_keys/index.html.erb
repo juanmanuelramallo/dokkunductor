@@ -1,0 +1,15 @@
+<h1 class="title">SSH Keys</h1>
+
+<main class="py-4">
+  <% if @ssh_keys.any? %>
+    <ol class="list-decimal list-inside">
+      <% @ssh_keys.each do |key| %>
+        <li>
+          <%= key.info.html_safe %>
+        </li>
+      <% end %>
+    </ol>
+  <% else %>
+    <p class="">No SSH Keys present.</p>
+  <% end %>
+</main>
