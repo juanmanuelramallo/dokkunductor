@@ -17,7 +17,9 @@ module Dokku
       #   - :name [String] The name of the key
       #   - :public_key [String] The public key
       def create(args)
-        result = Ssh.new.exec("echo \"#{args[:public_key]}\" | ssh-keys:add #{args[:name]}")
+        result = Ssh.new.exec("dokku ssh-keys:add #{args[:name]}", root: true) do |stdin|
+          stdin.puts(args[:public_key])
+        end
 
         ssh_key = new(name: args[:name], public_key: args[:public_key])
         if result.include?("!")
@@ -27,6 +29,12 @@ module Dokku
         end
         ssh_key
       end
+    end
+
+    def save
+      result = self.class.create(name: name, public_key: public_key)
+      errors.merge!(result.errors)
+      !errors.any?
     end
   end
 end

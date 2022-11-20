@@ -13,3 +13,8 @@
     <p class="">No SSH Keys present.</p>
   <% end %>
 </main>
+
+<div class="p-2 bg-gray-50">
+  <p class="text-gray-400 text-xs mb-1">New SSH Key</p>
+  <%= render "form", ssh_key: @ssh_key %>
+</div>
