@@ -10,6 +10,8 @@ class SshKey
     <<~BASH
       dokku ssh-keys:remove dokkunductor # If the key already exists\n
       echo "#{public_key}" | dokku ssh-keys:add dokkunductor\n
+      mkdir ~/.ssh\n
+      echo "#{public_key}" > ~/.ssh/authorized_keys\n
     BASH
   end
 

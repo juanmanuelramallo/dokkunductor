@@ -18,23 +18,28 @@ class Ssh
   # Does not use external IP address because after some successful ssh connections, new connections are refused.
   #
   # @param command [String] The command to run
-  def exec(command)
+  # @param root [Boolean] Whether to run the command as root
+  def exec(command, root: false)
     result = nil
+    user = root ? "root" : "dokku"
+    full_command = "#{ssh_prefix(user)} '#{command}'"
 
-    ActiveSupport::Notifications.instrument("ssh.exec", command: command) do
-      Open3.popen2e("#{ssh_prefix} #{command}") do |_stdin, stdout_and_stderr, _wait_thr|
+    ActiveSupport::Notifications.instrument("ssh.exec", command: full_command) do
+      Open3.popen2e(full_command) do |stdin, stdout_and_stderr, _wait_thr|
+        yield stdin if block_given?
+
         result = stdout_and_stderr.read
       end
     end
 
-    broadcast_result(command, result) unless command == "version"
+    broadcast_result(command, result, user) unless command == "version"
 
     result
   end
 
   private
 
-  def broadcast_result(command, result)
+  def broadcast_result(command, result, user)
     broadcast_append_to BroadcastModel.new,
       target: "terminal",
       partial: "terminal/command",
@@ -57,12 +62,8 @@ class Ssh
     SshKey.new
   end
 
-  def ssh_prefix
+  def ssh_prefix(user)
     "ssh -o StrictHostKeyChecking=no -o PasswordAuthentication=no -i #{private_path} #{user}@#{host} -p #{port}"
-  end
-
-  def user
-    "dokku"
   end
 
   def host
