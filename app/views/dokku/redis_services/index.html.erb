@@ -1,0 +1,20 @@
+<h1 class="title">Redis</h1>
+
+<main class="py-4">
+  <% if @redis_services.any? %>
+    <ul class="">
+      <% @redis_services.each do |redis_service| %>
+        <li>
+          <%= link_to redis_service.service, dokku_redis_service_path(redis_service), class: "link" %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="">There are no redis services.</p>
+  <% end %>
+</main>
+
+<div class="p-2 bg-gray-50">
+  <p class="text-gray-400 text-xs mb-1">New redis service</p>
+  <%= render "form", redis: @redis %>
+</div>

@@ -1,0 +1,15 @@
+<% @redis.errors.to_hash(true).each do |attr, errors| %>
+  <%= render "application/notification", message: errors.join(". ") %>
+<% end %>
+<h1 class="title"><%= @redis.service %></h1>
+
+<main class="">
+  <div class="mb-2">
+    <%= render "links", redis: @redis %>
+  </div>
+  <div class="mb-2">
+    <%= link_to "Destroy", dokku_redis_service_path(@redis.service), class: "link", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+  </div>
+
+  <%= simple_format @redis.info %>
+</main>

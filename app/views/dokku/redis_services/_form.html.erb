@@ -1,0 +1,11 @@
+<%= form_with model: redis, url: dokku_redis_services_path, method: :post do |f| %>
+  <% if redis.errors.has_key?(:base) %>
+    <p class="mb-1">
+      <%= redis.errors[:base].join(', ') %>
+    </p>
+  <% end %>
+
+  <%= f.text_field :service, placeholder: "Redis service name" %>
+
+  <%= f.submit "Create", class: "cursor-pointer mt-1 block link" %>
+<% end %>
