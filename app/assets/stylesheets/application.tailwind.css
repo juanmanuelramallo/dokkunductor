@@ -10,4 +10,13 @@
   .title {
     @apply text-2xl font-bold mb-2
   }
+
+  .ansi-36 { @apply text-cyan-600 }
+  .ansi-32 { @apply text-green-600 }
+  .ansi-33 { @apply text-yellow-600 }
+  .ansi-31 { @apply text-red-600 }
+  .ansi-35 { @apply text-purple-600 }
+  .ansi-34 { @apply text-blue-600 }
+  .ansi-37 { @apply text-gray-300 }
+  .ansi-90 { @apply text-gray-600 }
 }
