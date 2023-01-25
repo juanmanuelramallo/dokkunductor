@@ -2,9 +2,6 @@
 
 <main class="py-4">
   <code>
-    <% @app.logs.split("\r").each do |log| %>
-      <%= log %>
-      <br>
-    <% end %>
+    <%= sanitize @logs, tags: ["span", "br"], attributes: ["class"] %>
   </code>
 </main>
