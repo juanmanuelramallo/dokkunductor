@@ -1,0 +1,7 @@
+<%= turbo_frame_tag "new_redis_link" do %>
+  <%= form_with url: dokku_redis_service_links_path, scope: "redis_link" do |f| %>
+    <%= f.select :app_name, options_for_select(@available_app_names) %>
+
+    <%= f.submit "Create link", class: "cursor-pointer mt-1 block link" %>
+  <% end %>
+<% end %>
